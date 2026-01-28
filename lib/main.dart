@@ -103,6 +103,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
+
+
+
+          // ---------new -----------
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
