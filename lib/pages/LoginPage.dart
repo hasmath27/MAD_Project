@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true),
       home: const LoginScreen(),
     );
   }
@@ -22,207 +23,204 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFBFDFF),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 60),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
-            // Location Icon
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.blue.withAlpha(25),
-                    shape: BoxShape.circle,
+            // Modern Location Icon with Soft Shadow
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withValues(alpha:0.2),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
                   ),
-                ),
-                const Icon(Icons.location_on,
-                    size: 80, color: Colors.blueAccent),
-              ],
+                ],
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 110,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent.withValues(alpha:0.1),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.location_on_rounded,
+                    size: 70,
+                    color: Colors.blueAccent,
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
 
             // App Name & Subtitle
             const Text(
               "Ceylon Explorer",
               style: TextStyle(
-                fontSize: 28,
+                fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Colors.blueAccent,
-                fontFamily: 'cursive',
+                color: Color(0xFF1A237E),
+                letterSpacing: -0.5,
               ),
             ),
-            const Text(
+            Text(
               "EXPLORE THE SRI LANKA",
               style: TextStyle(
-                  letterSpacing: 2, fontSize: 12, color: Colors.blueGrey),
+                letterSpacing: 3,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey.withValues(alpha:0.6),
+              ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 50),
 
             // User Name Input
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Enter your User Name",
-                    style: TextStyle(fontWeight: FontWeight.w500)),
-                const SizedBox(height: 8),
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: "Ranuja Liyanaarachchi",
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    suffixIcon:
-                        const Icon(Icons.check_circle, color: Colors.blue),
-                  ),
-                ),
-              ],
+            _buildCustomTextField(
+              label: "User Name",
+              hint: "Ranuja Liyanaarachchi",
+              icon: Icons.check_circle_outline,
+              isPassword: false,
             ),
             const SizedBox(height: 20),
 
             // Password Input
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Enter your password",
-                    style: TextStyle(fontWeight: FontWeight.w500)),
-                const SizedBox(height: 8),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: "***************",
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    suffixIcon:
-                        const Icon(Icons.visibility_off, color: Colors.blue),
-                  ),
-                ),
-              ],
+            _buildCustomTextField(
+              label: "Password",
+              hint: "••••••••••••",
+              icon: Icons.visibility_off_outlined,
+              isPassword: true,
             ),
 
-            // Forgot Password
-            const Align(
-              alignment: Alignment.centerRight,
-              child:
-                  TextButton(onPressed: null, child: Text("Forgot password?")),
-            ),
+            const SizedBox(height: 10),
 
             // Sign In Button
-            SizedBox(
+            Container(
               width: double.infinity,
-              height: 55,
+              height: 58,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withValues(alpha:0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 0,
                 ),
                 child: const Text(
                   "Sign In",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
+
+            // Divider
+            Row(
+              children: [
+                Expanded(child: Divider(color: Colors.grey.withValues(alpha:0.3))),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Text("or", style: TextStyle(color: Colors.grey)),
+                ),
+                Expanded(child: Divider(color: Colors.grey.withValues(alpha:0.3))),
+              ],
+            ),
+            const SizedBox(height: 30),
 
             // Sign Up Row
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Don't have an account? ",
-                    style:
-                        TextStyle(color: Color.fromARGB(255, 128, 127, 127))),
+                const Text(
+                  "Don't have an account? ",
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterPage()),
+                      MaterialPageRoute(builder: (context) => const RegisterPage()),
                     );
                   },
                   child: const Text(
                     "Sign Up",
                     style: TextStyle(
-                        color: Colors.blue, fontWeight: FontWeight.bold),
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: Text("or", style: TextStyle(color: Colors.grey)),
-            ),
-
-            // Google Button
-            SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: OutlinedButton.icon(
-                onPressed: () {},
-                icon:
-                    const Icon(Icons.g_mobiledata, color: Colors.red, size: 40),
-                label: const Text(
-                  "Continue with Google",
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.grey),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Facebook Button
-            SizedBox(
-              width: double.infinity,
-              height: 60,
-              child: OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.facebook, color: Colors.blue, size: 30),
-                label: const Text(
-                  " Continue with Facebook",
-                  style: TextStyle(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.grey),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Guest Text
           ],
         ),
       ),
     );
+  }
+
+  // Helper for consistent TextFields
+  Widget _buildCustomTextField({
+    required String label,
+    required String hint,
+    required IconData icon,
+    required bool isPassword,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+            child: Text(
+            label,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1A237E),
+            ),
+          ),
+          ),
+          TextField(
+            obscureText: isPassword,
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: TextStyle(color: Colors.grey.withValues(alpha:0.6)),
+              filled: true,
+              fillColor: Colors.white,
+              suffixIcon: Icon(icon, color: Colors.blueAccent, size: 22),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: Colors.blueAccent.withValues(alpha:0.1)),
+              )
+            )
+          )
+        ]
+      );     
   }
 }

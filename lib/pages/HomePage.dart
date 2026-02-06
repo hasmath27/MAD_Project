@@ -1,12 +1,7 @@
-// HomePage.dart
 import 'package:flutter/material.dart';
-import 'LocationDetails_Page.dart';
-import 'TouristPlaceDetails_Page.dart';
-import 'Recommendation_Page.dart';
-import 'NearbyPlaces_Page.dart';
-import 'Bookmark_Page.dart';
-import 'TicketPage.dart';
-import 'Profile_Page.dart';
+import 'bookmark_page.dart';
+import 'profile_page.dart';
+import 'place_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,192 +13,120 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
-  // Pages for BottomNavigationBar
-  final List<Widget> _pages = [
-    const HomeContentPage(),
-    const BookmarkPage(),
-    const TicketPage(),
-    const ProfilePage(),
+  final List<Map<String, String>> places = const [
+    {
+      'name': 'Galle Fort',
+      'location': 'Southern Province, Sri Lanka',
+      'image': 'assets/galle_fort.png',
+    },
+    {
+      'name': 'Sigiriya Rock',
+      'location': 'Matale, Sri Lanka',
+      'image': 'assets/sigiriya.png',
+    },
+    {
+      'name': 'Nine Arch Bridge',
+      'location': 'Ella, Sri Lanka',
+      'image': 'assets/nine_arch.png',
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      backgroundColor: const Color(0xFFF8F9FA), 
+      body: _selectedIndex == 0 ? _homeContent() : _otherPages(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.blueAccent,
+        onTap: (index) => setState(() => _selectedIndex = index),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark_outline), label: "Bookmark"),
-          BottomNavigationBarItem(icon: Icon(Icons.airplane_ticket_outlined), label: "Ticket"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.explore_outlined), activeIcon: Icon(Icons.explore), label: "Explore"),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark_outline), activeIcon: Icon(Icons.bookmark), label: "Saved"),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: "Profile"),
         ],
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
       ),
     );
   }
-}
 
-// HomeContentPage contains the actual Home content with cards
-class HomeContentPage extends StatelessWidget {
-  const HomeContentPage({super.key});
+  Widget _homeContent() {
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          title: Text("Explore Sri Lanka", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          backgroundColor: Color(0xFFF8F9FA),
+          elevation: 0,
+          centerTitle: false,
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _buildPlaceCard(places[index]),
+              childCount: places.length,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
-        title: Column(
+  Widget _buildPlaceCard(Map<String, String> place) {
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => PlaceDetailsPage(place: place))),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withValues(alpha:0.05), blurRadius: 10, offset: const Offset(0, 4)),
+          ],
+        ),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Good Morning"),
-            Text(
-              "Tetteh Jeron Asiedu",
-              style: Theme.of(context).textTheme.labelMedium,
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              child: Image.asset(
+                place['image']!,
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, e, s) => Container(height: 200, color: Colors.blue.withValues(alpha:0.1), child: const Icon(Icons.image_outlined)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(place['name']!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 4),
+                      Text(place['location']!, style: TextStyle(color: Colors.grey.shade600, fontSize: 14)),
+                    ],
+                  ),
+                  const CircleAvatar(
+                    backgroundColor: Color(0xFFE3F2FD),
+                    child: Icon(Icons.arrow_forward_ios, size: 14, color: Colors.blueAccent),
+                  )
+                ],
+              ),
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search_outlined),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 12),
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.notification_add_outlined),
-            ),
-          ),
-        ],
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(14),
-        children: [
-          // LOCATION CARD
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        const LocationDetailsPage(locationName: "Galle Fort")),
-              );
-            },
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15)),
-              child: const Center(child: Text("Location Card Placeholder")),
-            ),
-          ),
-          const SizedBox(height: 15),
-
-          // TOURIST PLACES
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        const TouristPlaceDetailsPage(placeName: "Sigiriya Rock")),
-              );
-            },
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                  color: Colors.orangeAccent.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15)),
-              child: const Center(child: Text("Tourist Places Placeholder")),
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // Recommendation Section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Recommendation",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RecommendationPage()),
-                    );
-                  },
-                  child: const Text("View All"))
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const RecommendationPage()),
-              );
-            },
-            child: Container(
-              height: 120,
-              decoration: BoxDecoration(
-                  color: Colors.greenAccent.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15)),
-              child: const Center(child: Text("Recommended Places Placeholder")),
-            ),
-          ),
-          const SizedBox(height: 10),
-
-          // Nearby Section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Nearby From You",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const NearbyPlacesPage()),
-                    );
-                  },
-                  child: const Text("View All"))
-            ],
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const NearbyPlacesPage()),
-              );
-            },
-            child: Container(
-              height: 120,
-              decoration: BoxDecoration(
-                  color: Colors.purpleAccent.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(15)),
-              child: const Center(child: Text("Nearby Places Placeholder")),
-            ),
-          ),
-        ],
       ),
     );
+  }
+
+  Widget _otherPages() {
+    return _selectedIndex == 1 ? const BookmarkPage() : const ProfilePage();
   }
 }
