@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/pages/home_page.dart';
 import 'package:project/theme/app_theme.dart';
+import 'package:project/pages/register_page.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -149,29 +150,38 @@ class _SplashPageState extends State<SplashPage>
                         ),
                       ),
                       const SizedBox(height: 14),
-                      Center(
-                        child: GestureDetector(
-                          onTap: _go,
-                          child: RichText(
-                            text: TextSpan(
-                              style: GoogleFonts.poppins(
-                                color: Colors.white60,
-                                fontSize: 14,
-                              ),
-                              text: 'Already a traveler? ',
-                              children: [
-                                TextSpan(
-                                  text: 'Sign In',
-                                  style: GoogleFonts.poppins(
-                                    color: AppTheme.teal,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                    // Replace the existing sign-in GestureDetector with this:
+Center(
+  child: GestureDetector(
+    onTap: () => Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const RegisterPage(),
+        transitionsBuilder: (_, a, __, c) =>
+            FadeTransition(opacity: a, child: c),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+    ),
+    child: RichText(
+      text: TextSpan(
+        style: GoogleFonts.poppins(
+          color: Colors.white60,
+          fontSize: 14,
+        ),
+        text: 'New here? ',
+        children: [
+          TextSpan(
+            text: 'Sign Up',
+            style: GoogleFonts.poppins(
+              color: AppTheme.teal,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    ),
+  ),
+),
                       const SizedBox(height: 32),
                     ],
                   ),
