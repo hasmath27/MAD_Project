@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:project/pages/welcome_page.dart';
+import 'package:flutter/services.dart';
+import 'package:project/pages/splash_page.dart';
+import 'package:project/theme/app_theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔑 Replace with your Supabase URL and anon key
+  await Supabase.initialize(
+    url: 'https://sapjddavqhywtgavulzm.supabase.co',
+    anonKey: 'sb_publishable_UxlmbyPdmzJFypY-U7JBWA_oTfw8ZcR',
+  );
+
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+
   runApp(const MyApp());
 }
+
+final supabase = Supabase.instance.client;
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -11,12 +31,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'travel App',
+      title: 'Travel App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const WelcomePage(),
+      theme: AppTheme.theme,
+      home: const SplashPage(),
     );
   }
 }
