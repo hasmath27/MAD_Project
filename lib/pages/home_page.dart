@@ -73,7 +73,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _toggleFav(PlaceModel p) async {
     try {
       await PlaceService.toggleFavorite(p.id, p.isFavorite);
-      // Update locally without full reload for instant UI feedback
       setState(() {
         final idx = _places.indexWhere((x) => x.id == p.id);
         if (idx != -1) {

@@ -232,7 +232,6 @@ class _AddEditPlacePageState extends State<AddEditPlacePage> {
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(20),
           children: [
-            // Image preview / upload
             GestureDetector(
               onTap: _pickAndUploadImage,
               child: Container(
@@ -291,7 +290,6 @@ class _AddEditPlacePageState extends State<AddEditPlacePage> {
 
             const SizedBox(height: 12),
 
-            // OR paste URL
             _field(
               _imageUrlCtr,
               'Image URL (or upload above)',
@@ -411,7 +409,6 @@ class _AddEditPlacePageState extends State<AddEditPlacePage> {
 
             const SizedBox(height: 20),
 
-            // Favorite toggle
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -452,7 +449,6 @@ class _AddEditPlacePageState extends State<AddEditPlacePage> {
 
             const SizedBox(height: 30),
 
-            // Save button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

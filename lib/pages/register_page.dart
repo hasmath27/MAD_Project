@@ -1,5 +1,3 @@
-// lib/pages/register_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/theme/app_theme.dart';
@@ -56,10 +54,8 @@ class _RegisterPageState extends State<RegisterPage>
   void _register() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      // Simulate network call
       await Future.delayed(const Duration(seconds: 2));
       setState(() => _isLoading = false);
-      // TODO: Add your registration logic here
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -78,13 +74,11 @@ class _RegisterPageState extends State<RegisterPage>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image (same as splash)
           Image.network(
             'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80',
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => Container(color: AppTheme.dark),
           ),
-          // Dark gradient overlay
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -107,7 +101,6 @@ class _RegisterPageState extends State<RegisterPage>
                     children: [
                       const SizedBox(height: 16),
 
-                      // Back button
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Container(
@@ -127,7 +120,6 @@ class _RegisterPageState extends State<RegisterPage>
 
                       const SizedBox(height: 28),
 
-                      // Badge
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
@@ -149,7 +141,6 @@ class _RegisterPageState extends State<RegisterPage>
 
                       const SizedBox(height: 16),
 
-                      // Title
                       Text(
                         'Create\nAccount',
                         style: GoogleFonts.playfairDisplay(
@@ -172,7 +163,6 @@ class _RegisterPageState extends State<RegisterPage>
 
                       const SizedBox(height: 32),
 
-                      // Form
                       Form(
                         key: _formKey,
                         child: Column(
@@ -248,7 +238,6 @@ class _RegisterPageState extends State<RegisterPage>
 
                       const SizedBox(height: 28),
 
-                      // Register button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -280,41 +269,38 @@ class _RegisterPageState extends State<RegisterPage>
                                   ),
                                 ),
                         ),
-      ),
+                      ),
 
                       const SizedBox(height: 16),
 
-                      
-
-
-Center(
-  child: GestureDetector(
-    onTap: () => Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => const LoginPage(),
-        transitionsBuilder: (_, a, __, c) =>
-            FadeTransition(opacity: a, child: c),
-        transitionDuration: const Duration(milliseconds: 400),
-      ),
-    ),
-    child: RichText(
-      text: TextSpan(
-        style: GoogleFonts.poppins(color: Colors.white60, fontSize: 14),
-        text: 'Already have an account? ',
-        children: [
-          TextSpan(
-            text: 'Sign In',
-            style: GoogleFonts.poppins(
-              color: AppTheme.teal,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    ),
-  ),
-),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () => Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => const LoginPage(),
+                            transitionsBuilder: (_, a, __, c) =>
+                                FadeTransition(opacity: a, child: c),
+                            transitionDuration: const Duration(milliseconds: 400),
+                          ),
+                        ),
+                        child: RichText(
+                          text: TextSpan(
+                            style: GoogleFonts.poppins(color: Colors.white60, fontSize: 14),
+                            text: 'Already have an account? ',
+                            children: [
+                              TextSpan(
+                                text: 'Sign In',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.teal,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
 
                       const SizedBox(height: 32),
                     ],

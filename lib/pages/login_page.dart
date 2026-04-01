@@ -1,5 +1,3 @@
-// lib/pages/login_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/theme/app_theme.dart';
@@ -55,7 +53,6 @@ class _LoginPageState extends State<LoginPage>
       setState(() => _isLoading = true);
       await Future.delayed(const Duration(seconds: 2));
       setState(() => _isLoading = false);
-      // TODO: Add your login logic here
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
@@ -86,13 +83,11 @@ class _LoginPageState extends State<LoginPage>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image
           Image.network(
             'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80',
             fit: BoxFit.cover,
             errorBuilder: (_, __, ___) => Container(color: AppTheme.dark),
           ),
-          // Dark gradient overlay
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -115,7 +110,6 @@ class _LoginPageState extends State<LoginPage>
                     children: [
                       const SizedBox(height: 16),
 
-                      // Back button
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Container(
@@ -135,7 +129,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 28),
 
-                      // Badge
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
@@ -157,7 +150,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 16),
 
-                      // Title
                       Text(
                         'Welcome\nBack',
                         style: GoogleFonts.playfairDisplay(
@@ -180,7 +172,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 36),
 
-                      // Form
                       Form(
                         key: _formKey,
                         child: Column(
@@ -229,11 +220,9 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 16),
 
-                      // Remember me + Forgot password row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Remember Me
                           GestureDetector(
                             onTap: () =>
                                 setState(() => _rememberMe = !_rememberMe),
@@ -272,10 +261,8 @@ class _LoginPageState extends State<LoginPage>
                             ),
                           ),
 
-                          // Forgot password
                           GestureDetector(
                             onTap: () {
-                              // TODO: Navigate to forgot password page
                             },
                             child: Text(
                               'Forgot Password?',
@@ -291,7 +278,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 32),
 
-                      // Login button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -329,7 +315,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 24),
 
-                      // Divider
                       Row(
                         children: [
                           Expanded(
@@ -352,7 +337,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 20),
 
-                      // Social login buttons
                       Row(
                         children: [
                           Expanded(
@@ -360,7 +344,6 @@ class _LoginPageState extends State<LoginPage>
                               label: 'Google',
                               icon: Icons.g_mobiledata_rounded,
                               onTap: () {
-                                // TODO: Google login
                               },
                             ),
                           ),
@@ -370,7 +353,6 @@ class _LoginPageState extends State<LoginPage>
                               label: 'Apple',
                               icon: Icons.apple_rounded,
                               onTap: () {
-                                // TODO: Apple login
                               },
                             ),
                           ),
@@ -379,7 +361,6 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 28),
 
-                      // Sign up link
                       Center(
                         child: GestureDetector(
                           onTap: _goToRegister,

@@ -318,7 +318,6 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
                       ),
                     ),
                   ),
-                  // Place name on image
                   Positioned(
                     bottom: 20,
                     left: 20,
@@ -637,7 +636,6 @@ class _PlaceDetailPageState extends State<PlaceDetailPage> {
 
                   const SizedBox(height: 24),
 
-                  // What's Included
                   Text(
                     "What's Included",
                     style: GoogleFonts.poppins(

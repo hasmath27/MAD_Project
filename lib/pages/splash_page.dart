@@ -150,38 +150,37 @@ class _SplashPageState extends State<SplashPage>
                         ),
                       ),
                       const SizedBox(height: 14),
-                    // Replace the existing sign-in GestureDetector with this:
-Center(
-  child: GestureDetector(
-    onTap: () => Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => const RegisterPage(),
-        transitionsBuilder: (_, a, __, c) =>
-            FadeTransition(opacity: a, child: c),
-        transitionDuration: const Duration(milliseconds: 500),
-      ),
-    ),
-    child: RichText(
-      text: TextSpan(
-        style: GoogleFonts.poppins(
-          color: Colors.white60,
-          fontSize: 14,
-        ),
-        text: 'New here? ',
-        children: [
-          TextSpan(
-            text: 'Sign Up',
-            style: GoogleFonts.poppins(
-              color: AppTheme.teal,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    ),
-  ),
-),
+                    Center(
+                      child: GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => const RegisterPage(),
+                            transitionsBuilder: (_, a, __, c) =>
+                                FadeTransition(opacity: a, child: c),
+                            transitionDuration: const Duration(milliseconds: 500),
+                          ),
+                        ),
+                        child: RichText(
+                          text: TextSpan(
+                            style: GoogleFonts.poppins(
+                              color: Colors.white60,
+                              fontSize: 14,
+                            ),
+                            text: 'New here? ',
+                            children: [
+                              TextSpan(
+                                text: 'Sign Up',
+                                style: GoogleFonts.poppins(
+                                  color: AppTheme.teal,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                       const SizedBox(height: 32),
                     ],
                   ),

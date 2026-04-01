@@ -16,7 +16,6 @@ class _TripPageState extends State<TripPage>
   bool _loading = true;
   String? _error;
 
-  // Set to FALSE so it always reloads when switching tabs
   @override
   bool get wantKeepAlive => false;
 
@@ -418,7 +417,7 @@ class _TripPageState extends State<TripPage>
                                 ),
                               ],
                             ),
-                            // Cancel button for upcoming
+
                             if (isUpcoming)
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(
