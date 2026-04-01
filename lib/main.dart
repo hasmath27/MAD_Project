@@ -6,8 +6,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // 🔑 Replace with your Supabase URL and anon key
   await Supabase.initialize(
     url: 'https://sapjddavqhywtgavulzm.supabase.co',
     anonKey: 'sb_publishable_UxlmbyPdmzJFypY-U7JBWA_oTfw8ZcR',
