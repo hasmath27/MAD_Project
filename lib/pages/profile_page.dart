@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/pages/splash_page.dart';
+import 'package:project/services/auth_service.dart';
 import 'package:project/services/booking_service.dart';
 import 'package:project/services/place_service.dart';
 import 'package:project/theme/app_theme.dart';
 
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
@@ -15,10 +16,24 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   int _tripCount = 0, _wishlistCount = 0;
 
+  String _name = '';
+  String _email = '';
+
   @override
   void initState() {
     super.initState();
     _loadStats();
+    _loadProfile(); 
+  }
+
+  void _loadProfile() async {
+    final profile = await AuthService().getProfile();
+    if (mounted) {
+      setState(() {
+        _name = profile?['full_name'] ?? 'Traveler';
+        _email = profile?['email'] ?? '';
+      });
+    }
   }
 
   Future<void> _loadStats() async {
@@ -69,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Alex Traveler',
+                      _name.isEmpty ? 'Traveler' : _name,
                       style: GoogleFonts.poppins(
                         color: Colors.white,
                         fontSize: 18,
@@ -77,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Text(
-                      'alex@traveler.com',
+                      _email,
                       style: GoogleFonts.poppins(
                         color: Colors.white70,
                         fontSize: 13,
@@ -176,10 +191,13 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 16),
 
           OutlinedButton.icon(
-            onPressed: () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => const SplashPage()),
-            ),
+            onPressed: () async {
+              await AuthService().signOut(); 
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const SplashPage()),
+              );
+            },
             icon: const Icon(Icons.logout_rounded, color: Colors.red),
             label: Text(
               'Log Out',

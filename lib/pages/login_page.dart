@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project/theme/app_theme.dart';
 import 'package:project/pages/register_page.dart';
 import 'package:project/pages/home_page.dart';
+import 'package:project/services/auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -49,21 +51,44 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void _login() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() => _isLoading = false);
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => const HomePage(),
-          transitionsBuilder: (_, a, __, c) =>
-              FadeTransition(opacity: a, child: c),
-          transitionDuration: const Duration(milliseconds: 500),
+  if (_formKey.currentState!.validate()) {
+    setState(() => _isLoading = true);
+    try {
+      final response = await AuthService().signIn(
+        _emailCtrl.text.trim(),
+        _passCtrl.text,
+      );
+
+      if (response.user != null) {
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const HomePage(),
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
+            transitionDuration: const Duration(milliseconds: 500),
+          ),
+        );
+      }
+    } on AuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message, style: GoogleFonts.poppins()),
+          backgroundColor: Colors.redAccent,
         ),
       );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Something went wrong', style: GoogleFonts.poppins()),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
+}
 
   void _goToRegister() {
     Navigator.pushReplacement(

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project/theme/app_theme.dart';
 import 'package:project/pages/login_page.dart';
+import 'package:project/services/auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({super.key});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -51,22 +53,56 @@ class _RegisterPageState extends State<RegisterPage>
     super.dispose();
   }
 
-  void _register() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-      await Future.delayed(const Duration(seconds: 2));
-      setState(() => _isLoading = false);
+ void _register() async {
+  if (_formKey.currentState!.validate()) {
+    setState(() => _isLoading = true);
+    try {
+      final response = await AuthService().signUp(
+        email: _emailCtrl.text.trim(),
+        password: _passCtrl.text,
+        fullName: _nameCtrl.text.trim(),
+      );
+
+      if (response.user != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Account created! Check your email to verify. 🎉',
+              style: GoogleFonts.poppins(),
+            ),
+            backgroundColor: AppTheme.teal,
+          ),
+        );
+        // Navigate to login after successful registration
+        Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const LoginPage(),
+            transitionsBuilder: (_, a, __, c) =>
+                FadeTransition(opacity: a, child: c),
+            transitionDuration: const Duration(milliseconds: 400),
+          ),
+        );
+      }
+    } on AuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'Account created successfully! 🎉',
-            style: GoogleFonts.poppins(),
-          ),
-          backgroundColor: AppTheme.teal,
+          content: Text(e.message, style: GoogleFonts.poppins()),
+          backgroundColor: Colors.redAccent,
         ),
       );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Something went wrong', style: GoogleFonts.poppins()),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
