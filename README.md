@@ -1,7 +1,9 @@
 ✈️ Travel Companion App
+
 A mobile travel planning application built with Flutter for the SWT32042 - Practical for Mobile Application Development module at South Eastern University of Sri Lanka.
 
 📱 About
+
 Travel Companion App is a feature-rich mobile application that helps users plan, explore, and manage their travel experiences from a single platform. It covers everything from destination discovery to trip itinerary management.
 
 ✨ Features
